@@ -1,39 +1,110 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/style.css">
+  <title>Document</title>
+</head>
 <body>
-    <h3>Modelo Predictivo basado en el Dataset Iris</h3>
-
-<div>
-  <form action="/result" method="POST">
-    <label for="Team">Team: </label>
-    <input type="text" id="Team" name="Team">
-    <br>
-    <label for="MatchWinner">MatchWinner: </label>
-    <input type="text" id="MatchWinner" name="MatchWinner">
-    <br>
-    <label for="Survived">Survived: </label>
-    <input type="text" id="Survived" name="Survived">
-    <br>
-    <label for="RoundKills">RoundKills: </label>
-    <input type="text" id="RoundKills" name="RoundKills">
-    <br>
-    <label for="RoundAssists">RoundAssists: </label>
-    <input type="text" id="RoundAssists" name="RoundAssists">
-    <br>
-    <label for="RoundStartingEquipmentValue">RoundStartingEquipmentValue: </label>
-    <input type="text" id="RoundStartingEquipmentValue" name="RoundStartingEquipmentValue">
-    <br>
-    <label for="TeamStartingEquipmentValue">TeamStartingEquipmentValue: </label>
-    <input type="text" id="TeamStartingEquipmentValue" name="TeamStartingEquipmentValue">
-    <br>
-    <label for="EquipmentDifferenceValue">EquipmentDifferenceValue: </label>
-    <input type="text" id="EquipmentDifferenceValue" name="EquipmentDifferenceValue">
-    <br>
-    <label for="DifferenceEquipmentValueLastRound">DifferenceEquipmentValueLastRound: </label>
-    <input type="text" id="DifferenceEquipmentValueLastRound" name="DifferenceEquipmentValueLastRound">
-    <br>
-    <br>
-    <button type="submit">submit</button>
-  </form>
-</div>
+  <div class="center-content">
+    <h1 class="title">Modelo Predictivo CSGO</h1>
+    <form action="/result" method="POST">
+      <label for="Team">Team: </label>
+      <input class="input" type="text" id="Team" name="Team">
+      <br>
+      <label for="MatchWinner">MatchWinner: </label>
+      <input class="input" type="text" id="MatchWinner" name="MatchWinner">
+      <br>
+      <label for="Survived">Survived: </label>
+      <input class="input" type="text" id="Survived" name="Survived">
+      <br>
+      <label for="RoundKills">RoundKills: </label>
+      <input class="input" type="text" id="RoundKills" name="RoundKills">
+      <br>
+      <label for="RoundAssists">RoundAssists: </label>
+      <input class="input" type="text" id="RoundAssists" name="RoundAssists">
+      <br>
+      <label for="RoundStartingEquipmentValue">RoundStartingEquipmentValue: </label>
+      <input class="input" type="text" id="RoundStartingEquipmentValue" name="RoundStartingEquipmentValue">
+      <br>
+      <label for="TeamStartingEquipmentValue">TeamStartingEquipmentValue: </label>
+      <input class="input" type="text" id="TeamStartingEquipmentValue" name="TeamStartingEquipmentValue">
+      <br>
+      <label for="EquipmentDifferenceValue">EquipmentDifferenceValue: </label>
+      <input class="input" type="text" id="EquipmentDifferenceValue" name="EquipmentDifferenceValue">
+      <br>
+      <label for="DifferenceEquipmentValueLastRound">DifferenceEquipmentValueLastRound: </label>
+      <input class="input" type="text" id="DifferenceEquipmentValueLastRound" name="DifferenceEquipmentValueLastRound">
+      <br>
+      <div id="errorMessages" style="color: red;"></div>
+      <br>
+      <div class="btn">
+        <button disabled type='submit'>Enviar</button>
+      </div>
+    </form>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const form = document.querySelector("form");
+      const submitButton = form.querySelector("button[type='submit']");
+    
+      const validateForm = () => {
+        let isValid = true;
+        const errorMsg = [];
+        const errorContainer = document.getElementById("errorMessages");
+        errorContainer.innerHTML = ""; // Limpiar mensajes de error previos
+    
+        // Validaciones existentes aquí...
+    
+        // Asegúrate de que todos los campos sean revisados
+        const fields = [
+          { id: "Team", validator: value => [0, 1].includes(parseInt(value)), message: "Team debe ser 0 o 1." },
+          { id: "MatchWinner", validator: value => [0, 1].includes(parseInt(value)), message: "MatchWinner debe ser 0 o 1." },
+          { id: "Survived", validator: value => [0, 1].includes(parseInt(value)), message: "Survived debe ser 0 o 1." },
+          { id: "RoundKills", validator: value => !isNaN(value) && parseInt(value) >= 0 && parseInt(value) <= 5, message: "RoundKills debe ser un número entre 0 y 5." },
+          { id: "RoundAssists", validator: value => !isNaN(value) && parseInt(value) >= 0 && parseInt(value) <= 5, message: "RoundAssists debe ser un número entre 0 y 5." },
+          { id: "RoundStartingEquipmentValue", validator: value => !isNaN(value) && parseInt(value) >= 800 && parseInt(value) <= 7230, message: "RoundStartingEquipmentValue debe ser un número entre 800 y 7230." },
+          { id: "TeamStartingEquipmentValue", validator: value => !isNaN(value) && parseInt(value) >= 4000 && parseInt(value) <= 36150, message: "TeamStartingEquipmentValue debe ser un número entre 4000 y 36150." },
+          { id: "EquipmentDifferenceValue", validator: value => !isNaN(value) && parseInt(value) >= (-32000) && parseInt(value) <= 32000, message: "EquipmentDifferenceValue debe ser un número entre -32000 y 32000." },
+          { id: "DifferenceEquipmentValueLastRound", validator: value => !isNaN(value) && parseFloat(value) >= -24000 && parseInt(value) <= 21000, message: "DifferenceEquipmentValueLastRound debe ser un número entre -24000 y 21000."},
+        ];
+    
+        fields.forEach(field => {
+          const value = document.getElementById(field.id).value;
+          if (!field.validator(value)) {
+            isValid = false;
+            errorMsg.push(field.message);
+          }
+        });
+    
+        // Agregar mensajes de error al contenedor
+        if (!isValid) {
+          errorMsg.forEach(msg => {
+            const errorElement = document.createElement("div");
+            errorElement.textContent = msg;
+            errorContainer.appendChild(errorElement);
+          });
+          submitButton.disabled = true; // Deshabilitar el botón si hay errores
+          return false; // Indica que la validación falló
+        } else {
+          submitButton.disabled = false; // Habilitar el botón si no hay errores
+          return true; // Indica que la validación fue exitosa
+        }
+      };
+    
+      form.addEventListener("input", validateForm);
+    
+      form.onsubmit = function(event) {
+        const isFormValid = validateForm(); // Validar el formulario antes de enviar
+        if (!isFormValid) {
+          event.preventDefault(); // Prevenir el envío si el formulario no es válido
+        }
+      };
+    });
+    </script>
 </body>
 </html>

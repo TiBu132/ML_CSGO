@@ -1,13 +1,24 @@
-<!doctype html>
-<html>
-   <body>
-        <h1>Resultado de la predicción:</h1>
-        {% if result[0] == 1 %}
-        <h3> Gano </h3>
-        <h4>probabilidades: {{ (result[1][0][1] * 100) | round(2) }}%</h4>
-        {% else %}
-        <h3> Perdio </h3>
-        <h4>probabilidades: {{ (result[1][0][0] * 100) | round(2) }}%</h4>
-        {% endif %}
-   </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="../static/style.css">
+   <title>Document</title>
+</head>
+<body>
+   <div class="center-content">
+      <h1 class="title">Resultado de la predicción</h1>
+      <hr>
+      <div class="result">
+         {% if result[0] == 1 %}
+         <h3 class="text-label"> Gano </h3>
+         <h4>Probabilidades: {{ (result[1][0][1] * 100) | round(2) }}%</h4>
+         {% else %}
+         <h3 class="text-label"> Perdio </h3>
+         <h4>Probabilidades: {{ (result[1][0][0] * 100) | round(2) }}%</h4>
+         {% endif %}
+      </div>
+   </div>
+</body>
 </html>
