@@ -2,6 +2,12 @@
 <html>
    <body>
         <h1>Resultado de la predicción:</h1>
-        <h3> {{ prediction }}</h3>
+        {% if result[0] == 1 %}
+        <h3> Gano </h3>
+        <h4>probabilidades: {{ (result[1][0][1] * 100) | round(2) }}%</h4>
+        {% else %}
+        <h3> Perdio </h3>
+        <h4>probabilidades: {{ (result[1][0][0] * 100) | round(2) }}%</h4>
+        {% endif %}
    </body>
 </html>
